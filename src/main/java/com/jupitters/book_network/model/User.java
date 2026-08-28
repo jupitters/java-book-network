@@ -1,5 +1,6 @@
 package com.jupitters.book_network.model;
 
+import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +9,11 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 
-
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails, Principal {
     @Override
     public String getName() {
