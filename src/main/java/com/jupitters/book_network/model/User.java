@@ -1,11 +1,14 @@
 package com.jupitters.book_network.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,10 +17,28 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "user")
+@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
+
+    @Column(unique = true)
+    private String email;
+
+    private String password;
+    private boolean accountLocked;
+    private boolean enabled;
+
     @Override
     public String getName() {
-        return "";
+        return email;
     }
 
     @Override
@@ -27,31 +48,31 @@ public class User implements UserDetails, Principal {
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return !accountLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return enabled;
     }
 }
