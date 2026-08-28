@@ -1,5 +1,6 @@
 package com.jupitters.book_network.model;
 
+import com.jupitters.book_network.roles.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
@@ -46,6 +47,9 @@ public class User implements UserDetails, Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     @Override
     public String getName() {
