@@ -1,6 +1,6 @@
-package com.jupitters.book_network.config;
+package com.jupitters.book_network.security;
 
-import com.jupitters.book_network.config.jwt.JwtFilter;
+import com.jupitters.book_network.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
