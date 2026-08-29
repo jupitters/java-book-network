@@ -7,6 +7,7 @@ import com.jupitters.book_network.repository.UserRepository;
 import com.jupitters.book_network.roles.Role;
 import com.jupitters.book_network.service.AuthenticationService;
 import com.jupitters.book_network.service.EmailService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final EmailService emailService;
 
     @Override
-    public void register(RegistrationRequest request) {
+    public void register(RegistrationRequest request) throws MessagingException {
         Role userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE_USER was not initialized!"));
         User user = User.builder()

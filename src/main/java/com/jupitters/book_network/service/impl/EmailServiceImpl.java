@@ -7,6 +7,7 @@ import com.jupitters.book_network.template.EmailTemplateName;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -27,9 +28,13 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
+    @Value("${application.mailing.frontend.activation-url}")
+    private String activationUrl;
+
     @Override
-    public void sendValidationEmail(User user) {
+    public void sendValidationEmail(User user) throws MessagingException {
         String newToken = tokenService.generateAndSaveActivationToken(user);
+        sendEmail(user.getEmail(), user.getFullName(), EmailTemplateName.ACTIVATE_ACCOUNT, activationUrl, newToken, "Account Activation");
     }
 
     @Async
