@@ -27,8 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Role userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE_USER was not initialized!"));
         User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
+                .firstName(request.getFirstname())
+                .lastName(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .accountLocked(false)

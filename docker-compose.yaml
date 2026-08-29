@@ -8,9 +8,9 @@ services:
       PGDATA: /var/lib/postgresql/data
       POSTGRES_DB: book_social_network
     volumes:
-      - postgres:/data/postgres
+      - postgres-book:/data/postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - spring-book
     restart: unless-stopped
@@ -26,5 +26,5 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
+  postgres-book:
     driver: local
