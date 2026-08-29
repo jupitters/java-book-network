@@ -1,6 +1,5 @@
 package com.jupitters.book_network.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,18 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
-public class RegistrationRequest {
-    @NotEmpty(message = "Firstname is mandatory")
-    @NotBlank(message = "Firstname is mandatory")
-    private String firstname;
-
-    @NotEmpty(message = "Lastname is mandatory")
-    @NotBlank(message = "Lastname is mandatory")
-    private String lastname;
-
+public class AuthenticationRequest {
     @Email(message = "Insert a valid email")
     @NotEmpty(message = "Email is mandatory")
     @NotBlank(message = "Email is mandatory")

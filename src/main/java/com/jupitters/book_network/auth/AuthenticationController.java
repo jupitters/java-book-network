@@ -1,5 +1,6 @@
 package com.jupitters.book_network.auth;
 
+import com.jupitters.book_network.dto.AuthenticationRequest;
 import com.jupitters.book_network.dto.RegistrationRequest;
 import com.jupitters.book_network.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,5 +23,10 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
         authService.register(request);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
+        return ResponseEntity.ok(authService.authenticate(request));
     }
 }
