@@ -1,17 +1,24 @@
 package com.jupitters.book_network.service.impl;
 
+import com.jupitters.book_network.dto.AuthenticationRequest;
+import com.jupitters.book_network.dto.AuthenticationResponse;
 import com.jupitters.book_network.dto.RegistrationRequest;
+import com.jupitters.book_network.model.Token;
 import com.jupitters.book_network.model.User;
 import com.jupitters.book_network.repository.RoleRepository;
 import com.jupitters.book_network.repository.UserRepository;
 import com.jupitters.book_network.roles.Role;
+import com.jupitters.book_network.security.jwt.JwtService;
 import com.jupitters.book_network.service.AuthenticationService;
 import com.jupitters.book_network.service.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,6 +28,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @Override
     public void register(RegistrationRequest request) throws MessagingException {
@@ -38,5 +47,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userRepository.save(user);
         emailService.sendValidationEmail(user);
+    }
+
+    @Override
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        var authManager = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        var claims = new HashMap<String, Object>();
+        var user = (User) authManager.getPrincipal();
+        claims.put("fullName", user.getFullName());
+        String jwtToken = jwtService.generateToken(claims, user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 }
