@@ -16,7 +16,7 @@ public class TokenServiceImpl implements TokenService {
     private final TokenRepository tokenRepository;
 
     @Override
-    public String generateAndSaveGenerationToken(User user) {
+    public String generateAndSaveActivationToken(User user) {
         String generatedToken = generateActivationCode(6);
         Token token = Token.builder()
                 .token(generatedToken)
