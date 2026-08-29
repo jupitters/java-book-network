@@ -1,5 +1,6 @@
 package com.jupitters.book_network.auth;
 
+import com.jupitters.book_network.dto.RegistrationRequest;
 import com.jupitters.book_network.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
