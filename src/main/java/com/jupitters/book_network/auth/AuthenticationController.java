@@ -32,7 +32,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/activate-account")
-    public void confirm(@RequestParam String token) {
+    public void confirm(@RequestParam String token) throws MessagingException {
         authService.activateAccount(token);
     }
 }
