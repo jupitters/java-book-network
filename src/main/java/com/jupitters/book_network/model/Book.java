@@ -2,6 +2,7 @@ package com.jupitters.book_network.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -12,16 +13,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Book {
-    @Id
-    @GeneratedValue
-    private Integer id;
-
+public class Book extends BaseEntity {
     private String title;
     private String authorName;
     private String isbn;
@@ -30,19 +26,4 @@ public class Book {
     private boolean archived;
     private boolean shareable;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime updatedAt;
-
-    @CreatedBy
-    @Column(nullable = false, updatable = false)
-    private Integer createdBy;
-
-    @LastModifiedBy
-    @Column(insertable = false)
-    private Integer updatedBy;
 }
