@@ -3,6 +3,7 @@ package com.jupitters.book_network.service.impl;
 import com.jupitters.book_network.dto.BookRequest;
 import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.User;
+import com.jupitters.book_network.repository.BookRepository;
 import com.jupitters.book_network.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,9 +19,8 @@ public class BookServiceImpl implements BookService {
         User user = (User) connectedUser.getPrincipal();
         Book book = toBook(request);
         book.setOwner(user);
-        bookRepository.save(book);
 
-        return 0;
+        return bookRepository.save(book).getId();
     }
 
     private Book toBook(BookRequest request) {
