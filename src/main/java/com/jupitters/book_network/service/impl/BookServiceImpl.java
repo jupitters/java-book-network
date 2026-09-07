@@ -2,12 +2,17 @@ package com.jupitters.book_network.service.impl;
 
 import com.jupitters.book_network.dto.BookRequest;
 import com.jupitters.book_network.dto.BookResponse;
+import com.jupitters.book_network.dto.PageResponse;
 import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.User;
 import com.jupitters.book_network.repository.BookRepository;
 import com.jupitters.book_network.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +37,13 @@ public class BookServiceImpl implements BookService {
 
         return toBookResponse(book);
 
+    }
+
+    @Override
+    public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, user.getId());
     }
 
     private BookResponse toBookResponse(Book book) {
