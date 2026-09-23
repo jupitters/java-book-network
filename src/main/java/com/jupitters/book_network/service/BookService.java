@@ -6,6 +6,7 @@ import com.jupitters.book_network.dto.BorrowedBookResponse;
 import com.jupitters.book_network.dto.PageResponse;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface BookService {
     Integer saveBook(BookRequest request, Authentication connectedUser);
@@ -28,4 +29,6 @@ public interface BookService {
     Integer returnBorrowedBook(Integer bookId, Authentication connectedUser);
 
     Integer approveReturnBorrowedBook(Integer bookId, Authentication connectedUser);
+
+    void uploadBookCoverPicture(MultipartFile file, Authentication connectedUser, Integer bookId);
 }

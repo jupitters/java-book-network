@@ -11,6 +11,7 @@ import com.jupitters.book_network.model.User;
 import com.jupitters.book_network.repository.BookRepository;
 import com.jupitters.book_network.repository.BookTransactionHistoryRepository;
 import com.jupitters.book_network.service.BookService;
+import com.jupitters.book_network.service.FileStorageService;
 import com.jupitters.book_network.utils.BookSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +31,7 @@ import java.util.Objects;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookTransactionHistoryRepository transactionRepository;
+    private final FileStorageService fileStorageService;
 
     @Override
     public Integer saveBook(BookRequest request, Authentication connectedUser) {
@@ -217,6 +220,16 @@ public class BookServiceImpl implements BookService {
         bookTransactionHistory.setReturned(true);
 
         return transactionRepository.save(bookTransactionHistory).getId();
+    }
+
+    @Override
+    public void uploadBookCoverPicture(MultipartFile file, Authentication connectedUser, Integer bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with specified id!"));
+        User user = (User) connectedUser.getPrincipal();
+        var bookCover = fileStorageService.saveFile(file, book, user.getId());
+        book.setBookCover(bookCover);
+        bookRepository.save(book);
     }
 
     private BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history) {
