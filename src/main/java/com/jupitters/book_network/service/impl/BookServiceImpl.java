@@ -13,6 +13,7 @@ import com.jupitters.book_network.repository.BookTransactionHistoryRepository;
 import com.jupitters.book_network.service.BookService;
 import com.jupitters.book_network.service.FileStorageService;
 import com.jupitters.book_network.utils.BookSpecification;
+import com.jupitters.book_network.utils.FileUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
