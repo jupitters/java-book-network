@@ -7,6 +7,7 @@ import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.User;
 import com.jupitters.book_network.repository.BookRepository;
 import com.jupitters.book_network.service.BookService;
+import com.jupitters.book_network.utils.BookSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -65,9 +66,20 @@ public class BookServiceImpl implements BookService {
     public PageResponse<BookResponse> findAllBooksByOwner(int page, int size, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<Book> books = bookRepository.findAll(spec, pageable);
+        Page<Book> books = bookRepository.findAll(BookSpecification.withOwnerId(user.getId()), pageable);
+        List<BookResponse> bookResponse = books.stream()
+                .map(b -> toBookResponse(b))
+                .toList();
 
-        return null;
+        return new PageResponse<>(
+                bookResponse,
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages(),
+                books.isFirst(),
+                books.isLast()
+        );
     }
 
     private BookResponse toBookResponse(Book book) {
