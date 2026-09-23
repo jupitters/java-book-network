@@ -213,9 +213,10 @@ public class BookServiceImpl implements BookService {
         }
 
         BookTransactionHistory bookTransactionHistory = transactionRepository.findByBookIdAndOwnerId(bookId, user.getId())
-                .orElseThrow(() -> new OperationNotPermittedException("You did not borrow this book."));
+                .orElseThrow(() -> new OperationNotPermittedException("The book is not returned yet."));
+        bookTransactionHistory.setReturned(true);
 
-        return 0;
+        return transactionRepository.save(bookTransactionHistory).getId();
     }
 
     private BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history) {
