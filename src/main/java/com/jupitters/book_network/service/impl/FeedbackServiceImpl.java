@@ -6,6 +6,7 @@ import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.Feedback;
 import com.jupitters.book_network.model.User;
 import com.jupitters.book_network.repository.BookRepository;
+import com.jupitters.book_network.repository.FeedbackRepository;
 import com.jupitters.book_network.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
     private final BookRepository bookRepository;
+    private final FeedbackRepository feedbackRepository;
 
     @Override
     public Integer saveFeedback(FeedbackRequest request, Authentication connectedUser) {
