@@ -1,6 +1,7 @@
 package com.jupitters.book_network.handler;
 
 import com.jupitters.book_network.dto.ExceptionResponse;
+import com.jupitters.book_network.exception.OperationNotPermittedException;
 import com.jupitters.book_network.model.BusinessErrorCode;
 import com.sun.net.httpserver.HttpsServer;
 import jakarta.mail.MessagingException;
@@ -88,6 +89,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ExceptionResponse.builder()
                         .businessErrorDescription("Internal error, contact the admin")
+                        .error(exp.getMessage())
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
+        exp.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ExceptionResponse.builder()
+                        .businessErrorDescription("Not allowed!")
                         .error(exp.getMessage())
                         .build()
                 );

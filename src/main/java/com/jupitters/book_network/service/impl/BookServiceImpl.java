@@ -4,6 +4,7 @@ import com.jupitters.book_network.dto.BookRequest;
 import com.jupitters.book_network.dto.BookResponse;
 import com.jupitters.book_network.dto.BorrowedBookResponse;
 import com.jupitters.book_network.dto.PageResponse;
+import com.jupitters.book_network.exception.OperationNotPermittedException;
 import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.BookTransactionHistory;
 import com.jupitters.book_network.model.User;
