@@ -168,8 +168,17 @@ public class BookServiceImpl implements BookService {
             throw new OperationNotPermittedException("You cannot borrow your own book.");
         }
         final boolean isAlreadyBorrowed = transactionRepository.isAlreadyBorrowedByUser(bookId, user.getId());
+        if(isAlreadyBorrowed) {
+            throw new OperationNotPermittedException("This book is already borrowed.");
+        }
 
-        return 0;
+        BookTransactionHistory bookTransactionHistory = BookTransactionHistory.builder()
+                .user(user)
+                .book(book)
+                .returned(false)
+                .returnApproved(false)
+                .build();
+        return transactionRepository.save(bookTransactionHistory).getId();
     }
 
     private BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history) {
