@@ -2,6 +2,7 @@ package com.jupitters.book_network.controller;
 
 import com.jupitters.book_network.dto.BookRequest;
 import com.jupitters.book_network.dto.BookResponse;
+import com.jupitters.book_network.dto.BorrowedBookResponse;
 import com.jupitters.book_network.dto.PageResponse;
 import com.jupitters.book_network.service.BookService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,7 +48,7 @@ public class BookController {
     }
 
     @GetMapping("/borrowed")
-    public ResponseEntity<PageResponse<BookResponse>> findAllBorrowedBooks(
+    public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllBorrowedBooks(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             Authentication connectedUser
