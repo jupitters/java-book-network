@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.lang.ScopedValue;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +41,15 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
         AND t.returned = false
         AND t.returnApproved = false
         """)
-    Optional<BookTransactionHistory> findByBookIdAndUserId(Integer bookId, Integer id);
+    Optional<BookTransactionHistory> findByBookIdAndUserId(Integer bookId, Integer userId);
+
+    @Query("""
+        SELECT t
+        FROM BookTransactionHistory t
+        WHERE t.book.owner.id = :userId
+        AND t.book.id = :bookId
+        AND t.returned = false
+        AND t.returnApproved = false
+        """)
+    Optional<BookTransactionHistory> findByBookIdAndOwnerId(Integer bookId, Integer userId);
 }

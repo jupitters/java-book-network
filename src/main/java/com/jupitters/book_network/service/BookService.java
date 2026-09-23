@@ -26,4 +26,6 @@ public interface BookService {
     Integer borrowBook(Integer bookId, Authentication connectedUser);
 
     Integer returnBorrowedBook(Integer bookId, Authentication connectedUser);
+
+    Integer approveReturnBorrowedBook(Integer bookId, Authentication connectedUser);
 }

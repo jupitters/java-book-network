@@ -200,6 +200,24 @@ public class BookServiceImpl implements BookService {
         return transactionRepository.save(bookTransactionHistory).getId();
     }
 
+    @Override
+    public Integer approveReturnBorrowedBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with specified id!"));
+        if(book.isArchived() || !book.isShareable()) {
+            throw new OperationNotPermittedException("The requested book cannot be borrowed");
+        }
+        User user = (User) connectedUser.getPrincipal();
+        if(Objects.equals(book.getOwner().getId(), user.getId())){
+            throw new OperationNotPermittedException("You cannot borrow or return your own book.");
+        }
+
+        BookTransactionHistory bookTransactionHistory = transactionRepository.findByBookIdAndOwnerId(bookId, user.getId())
+                .orElseThrow(() -> new OperationNotPermittedException("You did not borrow this book."));
+
+        return 0;
+    }
+
     private BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history) {
         return BorrowedBookResponse.builder()
                 .id(history.getBook().getId())
