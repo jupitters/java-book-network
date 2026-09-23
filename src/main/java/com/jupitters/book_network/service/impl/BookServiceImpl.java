@@ -133,7 +133,7 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with specified id!"));
         User user = (User) connectedUser.getPrincipal();
         if(!Objects.equals(book.getOwner().getId(), user.getId())){
-            throw new OperationNotPermittedException("You cannot update this.")
+            throw new OperationNotPermittedException("You cannot update this.");
         }
         book.setShareable(!book.isShareable());
         bookRepository.save(book);
