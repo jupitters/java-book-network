@@ -2,6 +2,7 @@ package com.jupitters.book_network.service.impl;
 
 import com.jupitters.book_network.dto.BookRequest;
 import com.jupitters.book_network.dto.BookResponse;
+import com.jupitters.book_network.dto.BorrowedBookResponse;
 import com.jupitters.book_network.dto.PageResponse;
 import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.BookTransactionHistory;
@@ -71,7 +72,7 @@ public class BookServiceImpl implements BookService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Book> books = bookRepository.findAll(BookSpecification.withOwnerId(user.getId()), pageable);
         List<BookResponse> bookResponse = books.stream()
-                .map(b -> toBookResponse(b))
+                .map(this::toBookResponse)
                 .toList();
 
         return new PageResponse<>(
@@ -86,14 +87,35 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public PageResponse<BookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
+    public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<BookTransactionHistory> allBorrowedBooks = transactionRepository.findAllBorrowedBooks(pageable, user.getId());
         List<BorrowedBookResponse> bookResponse = allBorrowedBooks.stream()
-                .map(b -> toBorrowedBookResponse(b))
+                .map(this::toBorrowedBookResponse)
                 .toList();
-        return null;
+
+        return new PageResponse<>(
+                bookResponse,
+                allBorrowedBooks.getNumber(),
+                allBorrowedBooks.getSize(),
+                allBorrowedBooks.getTotalElements(),
+                allBorrowedBooks.getTotalPages(),
+                allBorrowedBooks.isFirst(),
+                allBorrowedBooks.isLast()
+        );
+    }
+
+    private BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history) {
+        return BorrowedBookResponse.builder()
+                .id(history.getBook().getId())
+                .title(history.getBook().getTitle())
+                .authorName(history.getBook().getAuthorName())
+                .isbn(history.getBook().getIsbn())
+                .rate(history.getBook().getRate())
+                .returned(history.isReturned())
+                .returnApproved(history.isReturnApproved())
+                .build();
     }
 
     private BookResponse toBookResponse(Book book) {
