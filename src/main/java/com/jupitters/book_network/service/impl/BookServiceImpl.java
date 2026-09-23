@@ -61,6 +61,15 @@ public class BookServiceImpl implements BookService {
         );
     }
 
+    @Override
+    public PageResponse<BookResponse> findAllBooksByOwner(int page, int size, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Book> books = bookRepository.findAll(spec, pageable);
+
+        return null;
+    }
+
     private BookResponse toBookResponse(Book book) {
         return BookResponse.builder()
                 .id(book.getId())
