@@ -90,7 +90,9 @@ public class BookServiceImpl implements BookService {
         User user = (User) connectedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<BookTransactionHistory> allBorrowedBooks = transactionRepository.findAllBorrowedBooks(pageable, user.getId());
-
+        List<BorrowedBookResponse> bookResponse = allBorrowedBooks.stream()
+                .map(b -> toBorrowedBookResponse(b))
+                .toList();
         return null;
     }
 
