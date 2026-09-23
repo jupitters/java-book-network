@@ -106,6 +106,11 @@ public class BookServiceImpl implements BookService {
         );
     }
 
+    @Override
+    public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size, Authentication connectedUser) {
+        return null;
+    }
+
     private BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history) {
         return BorrowedBookResponse.builder()
                 .id(history.getBook().getId())
