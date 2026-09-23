@@ -4,8 +4,10 @@ import com.jupitters.book_network.dto.BookRequest;
 import com.jupitters.book_network.dto.BookResponse;
 import com.jupitters.book_network.dto.PageResponse;
 import com.jupitters.book_network.model.Book;
+import com.jupitters.book_network.model.BookTransactionHistory;
 import com.jupitters.book_network.model.User;
 import com.jupitters.book_network.repository.BookRepository;
+import com.jupitters.book_network.repository.BookTransactionHistoryRepository;
 import com.jupitters.book_network.service.BookService;
 import com.jupitters.book_network.utils.BookSpecification;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final BookTransactionHistoryRepository transactionRepository;
 
     @Override
     public Integer saveBook(BookRequest request, Authentication connectedUser) {
@@ -80,6 +83,15 @@ public class BookServiceImpl implements BookService {
                 books.isFirst(),
                 books.isLast()
         );
+    }
+
+    @Override
+    public PageResponse<BookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<BookTransactionHistory> allBorrowedBooks = bookRepository.findAll(BookSpecification.withOwnerId(user.getId()), pageable);
+
+        return null;
     }
 
     private BookResponse toBookResponse(Book book) {
