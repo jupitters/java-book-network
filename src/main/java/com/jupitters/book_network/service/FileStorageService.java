@@ -5,5 +5,5 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStorageService {
-    String saveFile(MultipartFile file, Book book, Integer userId);
+    String saveFile(MultipartFile file, Integer userId);
 }

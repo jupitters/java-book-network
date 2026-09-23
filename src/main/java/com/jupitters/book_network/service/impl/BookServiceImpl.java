@@ -227,7 +227,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with specified id!"));
         User user = (User) connectedUser.getPrincipal();
-        var bookCover = fileStorageService.saveFile(file, book, user.getId());
+        var bookCover = fileStorageService.saveFile(file, user.getId());
         book.setBookCover(bookCover);
         bookRepository.save(book);
     }
