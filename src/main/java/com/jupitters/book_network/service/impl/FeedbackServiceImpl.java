@@ -1,6 +1,8 @@
 package com.jupitters.book_network.service.impl;
 
 import com.jupitters.book_network.dto.FeedbackRequest;
+import com.jupitters.book_network.dto.FeedbackResponse;
+import com.jupitters.book_network.dto.PageResponse;
 import com.jupitters.book_network.exception.OperationNotPermittedException;
 import com.jupitters.book_network.model.Book;
 import com.jupitters.book_network.model.Feedback;
@@ -10,6 +12,9 @@ import com.jupitters.book_network.repository.FeedbackRepository;
 import com.jupitters.book_network.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +40,15 @@ public class FeedbackServiceImpl implements FeedbackService {
         Feedback feedback = toFeedback(request);
 
         return feedbackRepository.save(feedback).getId();
+    }
+
+    @Override
+    public PageResponse<FeedbackResponse> findAllFeedbacksByBook(Integer bookId, int page, int size, Authentication connectedUser) {
+        Pageable pageable = PageRequest.of(page, size);
+        User user = (User) connectedUser.getPrincipal();
+        Page<Feedback> feedbacks = feedbackRepository.findAllByBookId(bookId, pageable);
+
+        return null;
     }
 
     private Feedback toFeedback(FeedbackRequest request) {
