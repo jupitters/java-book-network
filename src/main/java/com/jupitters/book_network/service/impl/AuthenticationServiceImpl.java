@@ -80,7 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new RuntimeException("Activation token has expired. A new token has been sent to the same email address.");
         }
 
-        User user = userRepository.findById(savedToken.getId())
+        User user = userRepository.findById(savedToken.getUser().getId())
                 .orElseThrow(() -> new RuntimeException(("User not found")));
         user.setEnabled(true);
         userRepository.save(user);

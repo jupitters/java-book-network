@@ -265,6 +265,7 @@ public class BookServiceImpl implements BookService {
                 .id(request.id())
                 .title(request.title())
                 .authorName(request.authorName())
+                .isbn(request.isbn())
                 .synopsis(request.synopsys())
                 .archived(false)
                 .shareable(request.shareable())
