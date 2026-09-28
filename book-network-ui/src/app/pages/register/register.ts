@@ -3,8 +3,7 @@ import {RegistrationRequest} from '../../services/models/registration-request';
 import {FormsModule} from '@angular/forms';
 import {Api} from '../../services/api';
 import {Router} from '@angular/router';
-import {authenticate, Authenticate$Params} from '../../services/fn/authentication/authenticate';
-import {Register$Params} from '../../services/fn/authentication/register';
+import {register, Register$Params} from '../../services/fn/authentication/register';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +32,7 @@ export class Register {
     }
 
     try{
-      const res = await this.api.invoke(authenticate, params);
+      const res = await this.api.invoke(register, params);
       this.router.navigate(['activate-account']);
     } catch (err: any) {
       console.log(err);

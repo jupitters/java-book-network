@@ -29,7 +29,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private String generateActivationCode(int length) {
-        String characters = "0123456789abcdefghijklmnopqrstuvwxyz";
+        String characters = "0123456789";
         StringBuilder codeBuilder = new StringBuilder();
         SecureRandom secureRandom = new SecureRandom();
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {Api} from '../../services/api';
 import {CodeInputModule} from 'angular-code-input';
@@ -21,7 +21,8 @@ export class ActivateAccount {
 
   constructor(
     private router: Router,
-    private api: Api
+    private api: Api,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -48,5 +49,6 @@ export class ActivateAccount {
       this.submitted = true;
       this.isOkay = false;
     }
+    this.cdr.detectChanges();
   }
 }
