@@ -48,7 +48,7 @@ export class Register {
       } else if (error?.error) {
         this.errorMsg = [error.error];
       } else {
-        this.errorMsg = ['Erro ao fazer login'];
+        this.errorMsg = ['Erro ao realizar registro login'];
       }
       this.cdr.detectChanges();
     }
