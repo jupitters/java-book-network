@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {authenticate, Authenticate$Params} from '../../services/fn/authentication/authenticate';
 import {Api} from '../../services/api';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Token} from '../../services/token/token';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class Login {
   constructor(
     private router: Router,
     private api: Api,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private tokenService: Token
   ) {
   }
 
@@ -35,7 +37,7 @@ export class Login {
 
     try{
       const res = await this.api.invoke(authenticate, params);
-      // save token
+      this.tokenService.token = res.token as string;
       this.router.navigate(['books']);
     } catch (err: any) {
       console.log(err);
