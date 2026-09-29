@@ -3,10 +3,13 @@ import {Api} from '../../../../services/api';
 import {Router} from '@angular/router';
 import {FindAllBooks$Params, findAllBooks} from '../../../../services/fn/book/find-all-books';
 import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
+import {BookCard} from '../../components/book-card/book-card';
 
 @Component({
   selector: 'app-book-list',
-  imports: [],
+  imports: [
+    BookCard
+  ],
   templateUrl: './book-list.html',
   styleUrl: './book-list.scss',
 })
