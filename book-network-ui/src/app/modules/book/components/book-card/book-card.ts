@@ -9,6 +9,7 @@ import {BookResponse} from '../../../../services/models/book-response';
 })
 export class BookCard {
   private _book: BookResponse = {};
+  private _manage = false;
   private _bookCover: string | undefined;
 
   get bookCover(): string | undefined {
@@ -25,6 +26,15 @@ export class BookCard {
   @Input()
   set book(value: BookResponse) {
     this._book = value;
+  }
+
+  get manage(): boolean {
+    return this._manage;
+  }
+
+  @Input()
+  set manage(value: boolean) {
+    this._manage = value;
   }
 
 }
