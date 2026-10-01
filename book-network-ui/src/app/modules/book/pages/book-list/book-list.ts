@@ -82,9 +82,11 @@ export class BookList implements OnInit {
 
     try {
       await this.api.invoke(borrowBook, params);
+      this.level = 'success';
       this.message = "Book successfully added to your list"
-    } catch (err) {
-      this.message = "An error occurred!";
+    } catch (err: any) {
+      this.level = 'error';
+      this.message = err.error.error;
     }
   }
 }

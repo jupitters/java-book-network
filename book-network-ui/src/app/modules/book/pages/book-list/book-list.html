@@ -1,7 +1,9 @@
 <h3>Books list</h3>
 @if (message) {
-  <div class="alert">
-
+  <div class="alert"
+       [class.alert-danger]="level === 'error'"
+       [class.alert-success]="level === 'success'">
+    {{ message }}
   </div>
 }
 <hr>
@@ -60,7 +62,7 @@
            class="page-link"
            href="javascript:void(0)"
            aria-label="Previous"
-           [class.disabled]="isLastPage()"
+           [class.disabled]="isLastPage"
         >
           <i class="fa-solid fa-angles-right"></i>
         </a>
