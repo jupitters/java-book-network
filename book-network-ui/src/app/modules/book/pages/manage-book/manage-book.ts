@@ -8,5 +8,17 @@ import { Component } from '@angular/core';
 })
 export class ManageBook {
   errorMsg: Array<string> = [];
-  selectedPicture: string | undefined = '';
+  selectedBookCover: any;
+  selectedPicture: string | undefined;
+
+  onFileSelected(event: any) {
+    this.selectedBookCover = event.target.files[0];
+    if(this.selectedBookCover) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedPicture = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedBookCover);
+    }
+  }
 }
