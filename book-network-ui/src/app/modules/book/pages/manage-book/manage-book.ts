@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './manage-book.html',
   styleUrl: './manage-book.scss',
 })
-export class ManageBook {}
+export class ManageBook {
+  errorMsg: Array<string> = [];
+  selectedPicture: string | undefined = '';
+}

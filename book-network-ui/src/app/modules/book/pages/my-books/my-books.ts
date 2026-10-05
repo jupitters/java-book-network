@@ -72,4 +72,8 @@ export class MyBooks implements OnInit{
   get isLastPage() {
     return this.page == this.booksResponse.totalPages as number - 1;
   }
+
+  archiveBook($event: BookResponse) {
+
+  }
 }
