@@ -19,22 +19,22 @@
       <form class="row g-3">
         <div class="col-12">
           <label for="title" class="form-label">Title</label>
-          <input [(ngModel)]="bookRequest.title" type="text" class="form-control" id="title"  placeholder="Book title">
+          <input [(ngModel)]="bookRequest.title" name="title" type="text" class="form-control" id="title"  placeholder="Book title">
         </div>
         <div class="col-6">
           <label for="author" class="form-label">Author name</label>
-          <input [(ngModel)]="bookRequest.authorName" type="text" class="form-control" id="author"  placeholder="Author name">
+          <input [(ngModel)]="bookRequest.authorName" name="authorName" type="text" class="form-control" id="author"  placeholder="Author name">
         </div>
         <div class="col-6">
           <label for="isbn" class="form-label">ISBN</label>
-          <input [(ngModel)]="bookRequest.isbn" type="text" class="form-control" id="isbn"  placeholder="ISBN">
+          <input [(ngModel)]="bookRequest.isbn" name="isbn" type="text" class="form-control" id="isbn"  placeholder="ISBN">
         </div>
         <div class="col-12">
           <label for="synopsys" class="form-label">Synopsis</label>
-          <textarea [(ngModel)]="bookRequest.synopsys" rows="4" type="text" class="form-control" id="synopsys"  placeholder="Synopsys"></textarea>
+          <textarea [(ngModel)]="bookRequest.synopsys" name="synopsys" rows="4" type="text" class="form-control" id="synopsys"  placeholder="Synopsys"></textarea>
         </div>
         <div class="col-12">
-          <input [(ngModel)]="bookRequest.shareable" type="checkbox" class="form-check-input" id="shareme">
+          <input [(ngModel)]="bookRequest.shareable" name="shareable" type="checkbox" class="form-check-input" id="shareme">
           <label for="shareme" class="form-check-label">Share me</label>
         </div>
         <div class="d-flex justify-content-end gap-2 col-12">
