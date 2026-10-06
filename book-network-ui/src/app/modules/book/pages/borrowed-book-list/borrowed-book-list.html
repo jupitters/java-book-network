@@ -1,1 +1,38 @@
-<p>borrowed-book-list works!</p>
+<h2>My borrowed books</h2>
+<hr>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">ISBN</th>
+        <th scope="col">Rate</th>
+        <th scope="col"><i class="fas fa-cogs"></i></th>
+      </tr>
+    </thead>
+    <tbody>
+    @for(book of borrowedBooks.content; track book; let index = $index){
+      <tr>
+        <th scope="row">{{ index + 1 }}</th>
+        <td>{{ book.title }}</td>
+        <td>{{ book.authorName }}</td>
+        <td>{{ book.isbn }}</td>
+        <td><i class="fas fa-star text-warning"></i>{{ book.rate }}</td>
+        <td>
+          <div class="flex-d gap-2">
+            @if(book.returned) {
+              <i class="fa-regular fa-paper-plane text-primary"></i>
+            }
+            @if(!book.returned) {
+              <i (click)="returnBorrowedBook(book)" class="fa-solid fa-paper-plane text-success"></i>
+            }
+            <i class="fa-solid fa-circle-check" [class.text-success]="book.returnApproved"></i>
+          </div>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>
