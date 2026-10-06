@@ -38,7 +38,7 @@
           <label for="shareme" class="form-check-label">Share me</label>
         </div>
         <div class="d-flex justify-content-end gap-2 col-12">
-          <button type="submit" class="btn btn-outline-primary">
+          <button (click)="saveBook()" type="submit" class="btn btn-outline-primary">
             <i class="fas fa-save"></i>&nbsp;Save
           </button>
           <a routerLink="/books/my-books" class="btn btn-link text-danger">
