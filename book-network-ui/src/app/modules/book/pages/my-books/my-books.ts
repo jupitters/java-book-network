@@ -76,4 +76,8 @@ export class MyBooks implements OnInit{
   archiveBook($event: BookResponse) {
 
   }
+
+  editBook(book: BookResponse) {
+    this.router.navigate(['books', 'manage', book.id]);
+  }
 }
