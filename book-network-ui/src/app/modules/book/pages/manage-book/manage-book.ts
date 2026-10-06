@@ -56,6 +56,9 @@ export class ManageBook implements OnInit{
           synopsys: book.synopsys as string,
           shareable: book.shareable
         }
+        if(book.cover) {
+          this.selectedPicture = 'data:image/jpg;base64,' + book.cover;
+        }
       } catch (err: any) {
         console.log(err.error.error);
       }
