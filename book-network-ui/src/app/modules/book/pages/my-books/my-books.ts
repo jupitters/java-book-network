@@ -5,6 +5,10 @@ import {Api} from '../../../../services/api';
 import {Router, RouterLink} from '@angular/router';
 import {BookResponse} from '../../../../services/models/book-response';
 import {findAllBooksByOwner, FindAllBooksByOwner$Params} from '../../../../services/fn/book/find-all-books-by-owner';
+import {
+  updateShareableStatus,
+  UpdateShareableStatus$Params
+} from '../../../../services/fn/book/update-shareable-status';
 
 @Component({
   selector: 'app-my-books',
@@ -73,8 +77,21 @@ export class MyBooks implements OnInit{
     return this.page == this.booksResponse.totalPages as number - 1;
   }
 
-  archiveBook($event: BookResponse) {
+  archiveBook(book: BookResponse) {
 
+  }
+
+  async shareBook(book: BookResponse) {
+    const params: UpdateShareableStatus$Params = {
+      bookId: book.id as number
+    }
+
+    try {
+      await this.api.invoke(updateShareableStatus, params);
+      book.shareable = !book.shareable;
+    } catch (err: any) {
+      console.log(err);
+    }
   }
 
   editBook(book: BookResponse) {
