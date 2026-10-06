@@ -85,7 +85,7 @@ export class MyBooks implements OnInit{
 
     try {
       await this.api.invoke(updateArchivedStatus, params);
-      book.shareable = !book.shareable;
+      book.archived = !book.archived;
     } catch (err: any) {
       console.log(err);
     }
