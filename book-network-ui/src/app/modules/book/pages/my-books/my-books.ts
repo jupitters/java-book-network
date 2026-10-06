@@ -9,6 +9,7 @@ import {
   updateShareableStatus,
   UpdateShareableStatus$Params
 } from '../../../../services/fn/book/update-shareable-status';
+import {updateArchivedStatus, UpdateArchivedStatus$Params} from '../../../../services/fn/book/update-archived-status';
 
 @Component({
   selector: 'app-my-books',
@@ -77,8 +78,17 @@ export class MyBooks implements OnInit{
     return this.page == this.booksResponse.totalPages as number - 1;
   }
 
-  archiveBook(book: BookResponse) {
+  async archiveBook(book: BookResponse) {
+    const params: UpdateArchivedStatus$Params = {
+      bookId: book.id as number
+    }
 
+    try {
+      await this.api.invoke(updateArchivedStatus, params);
+      book.shareable = !book.shareable;
+    } catch (err: any) {
+      console.log(err);
+    }
   }
 
   async shareBook(book: BookResponse) {
