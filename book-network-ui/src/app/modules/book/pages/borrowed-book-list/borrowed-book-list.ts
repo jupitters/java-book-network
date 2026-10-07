@@ -6,6 +6,8 @@ import {FindAllBorrowedBooks$Params, findAllBorrowedBooks} from '../../../../ser
 import {FeedbackRequest} from '../../../../services/models/feedback-request';
 import {Rating} from '../../components/rating/rating';
 import {FormsModule} from '@angular/forms';
+import {ReturnBorrowedBook$Params, returnBorrowedBook} from '../../../../services/fn/book/return-borrowed-book';
+import {saveFeedback, SaveFeedback$Params} from '../../../../services/fn/feedbacks/save-feedback';
 
 @Component({
   selector: 'app-borrowed-book-list',
@@ -21,7 +23,7 @@ export class BorrowedBookList implements OnInit{
   feedbackRequest: FeedbackRequest = {bookId:0, comment: ''};
   page = 0;
   size = 5;
-  selectedBook: BorrowedBookResponse = {};
+  selectedBook: BorrowedBookResponse | undefined = undefined;
 
   constructor(
     private api: Api
@@ -62,7 +64,8 @@ export class BorrowedBookList implements OnInit{
   }
 
   returnBorrowedBook(book: BorrowedBookResponse) {
-
+    this.selectedBook = book;
+    this.feedbackRequest.bookId = book.id as number;
   }
 
   private async findAllBorrowedBooks() {
@@ -74,6 +77,36 @@ export class BorrowedBookList implements OnInit{
     try {
       const res = await this.api.invoke(findAllBorrowedBooks, params);
       this.borrowedBooks = res;
+    } catch (err: any) {
+      console.log(err.error.error)
+    }
+  }
+
+  async returnBook(withFeedback: boolean) {
+    const params: ReturnBorrowedBook$Params = {
+      bookId = this.selectedBook?.id as number
+    }
+
+    try {
+      const res = await this.api.invoke(returnBorrowedBook, params);
+
+      if(withFeedback) {
+        this.giveFeedback();
+      }
+      this.selectedBook = undefined;
+      this.findAllBorrowedBooks();
+    } catch(err: any) {
+      console.log(err.error.error);
+    }
+  }
+
+  private async giveFeedback() {
+    const params: SaveFeedback$Params = {
+      body: this.feedbackRequest
+    }
+
+    try {
+      this.api.invoke(saveFeedback, params);
     } catch (err: any) {
       console.log(err.error.error)
     }
