@@ -85,7 +85,7 @@
             @if(!book.returned) {
               <i (click)="returnBorrowedBook(book)" class="cursor-pointer fa-solid fa-paper-plane text-success"></i>
             }
-            <i class="cursor-pointer fa-solid fa-circle-check" [class.text-success]="book.returnApproved"></i>
+            <i class="cursor-pointer  fa-solid fa-circle-check" [class.text-success]="book.returnApproved"></i>
           </div>
         </td>
       </tr>
