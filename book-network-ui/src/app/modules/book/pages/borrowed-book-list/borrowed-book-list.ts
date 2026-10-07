@@ -84,7 +84,7 @@ export class BorrowedBookList implements OnInit{
 
   async returnBook(withFeedback: boolean) {
     const params: ReturnBorrowedBook$Params = {
-      bookId = this.selectedBook?.id as number
+      bookId: this.selectedBook?.id as number
     }
 
     try {
