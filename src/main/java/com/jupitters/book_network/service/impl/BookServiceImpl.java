@@ -212,8 +212,8 @@ public class BookServiceImpl implements BookService {
             throw new OperationNotPermittedException("The requested book cannot be borrowed");
         }
         User user = (User) connectedUser.getPrincipal();
-        if(Objects.equals(book.getOwner().getId(), user.getId())){
-            throw new OperationNotPermittedException("You cannot borrow or return your own book.");
+        if(!Objects.equals(book.getOwner().getId(), user.getId())){
+            throw new OperationNotPermittedException("You cannot return a book you do not own.");
         }
 
         BookTransactionHistory bookTransactionHistory = transactionRepository.findByBookIdAndOwnerId(bookId, user.getId())
